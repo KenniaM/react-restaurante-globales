@@ -6,9 +6,9 @@ import { QuioscoProvider } from './context/QuioscoProvider.jsx'
 import router from './router.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <React.StrictMode>
     <QuioscoProvider>
       <RouterProvider  router={router}/>
     </QuioscoProvider>
-  </StrictMode>,
+  </React.StrictMode>,
 )

@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useQuisco from "../hooks/useQuiosco";
 import { formatearDinero } from "../helpers";
 
 export default function ModalProducto() {
-  const { producto, handleClickModal } = useQuisco();
-  const [cantidad, setCantidad] = useState(1); 
+  const { producto, handleClickModal, handleAgregarPedido, pedido } = useQuisco();
+  const [cantidad, setCantidad] = useState(1);
+  const [edicion, setEdicion] = useState(false) 
+
+  useEffect (() =>{
+    if(pedido.some( pedidoState => pedidoState.id === producto.id)) {
+      const productoEdicion = pedido.filter( pedidoState => pedidoState.id ===
+      producto.id)[0]
+      setCantidad(productoEdicion.cantidad)
+      setEdicion(true)
+    }
+  }, [pedido])
+
+
   return (
     <div className="md:flex items-center gap-10">
       <div className="md:w-1/3">
@@ -82,8 +94,12 @@ export default function ModalProducto() {
         <button
           type="button"
           className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white font-bold uppercase rounded"
+          onClick={() => {
+            handleAgregarPedido({...producto, cantidad})
+            handleClickModal()
+          }}
         >
-          Añadir al Pedido
+          {edicion ? 'Guardar Cambios' : 'Agregar al Pedido'}
         </button>
       </div>
     </div>
