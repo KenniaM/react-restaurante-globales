@@ -1,7 +1,7 @@
 import useQuisco from "../hooks/useQuiosco";
 import { formatearDinero } from "../helpers";
 
-export default function resumenProducto({producto}) {
+export default function ResumenProducto({producto}) {
     const {handleEditarCantidad, handleEliminarProductoPedido} = useQuisco();
     const {id, nombre, precio, cantidad} = producto
     return (

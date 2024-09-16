@@ -1,5 +1,6 @@
 import { formatearDinero } from "../helpers";
 import useQuiosco from "../hooks/useQuiosco"
+import ResumenProducto from "./ResumenProducto";
 
 export default function Resumen() {
   const {pedido, total} = useQuiosco();
@@ -23,8 +24,8 @@ export default function Resumen() {
         ) :(
           pedido.map(producto => (
             <ResumenProducto
-              key={producto.id} 
-              producto={producto}  
+              key={producto.id}
+              producto={producto}
             />
           ))
         )}
