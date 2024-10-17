@@ -7,6 +7,8 @@ import Registro from "./views/Registro"
 import AdminLayout from "./layouts/AdminLayout";
 import Ordenes from "./views/Ordenes";
 import Productos from "./views/Productos";
+import Historico from "./views/Historico";
+import Categorias from "./views/Categorias"
 
 const router = createBrowserRouter([
     {
@@ -16,6 +18,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Inicio />
+            },
+            {
+                path:'/historico',
+                element: <Historico />
             }
         ]
         
@@ -46,7 +52,12 @@ const router = createBrowserRouter([
             {
                 path : '/admin/productos',
                 element:<Productos />
+            },
+            {
+                path : '/admin/categorias',
+                element:<Categorias />
             }
+
     
     ]
     }
