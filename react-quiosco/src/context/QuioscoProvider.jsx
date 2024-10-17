@@ -137,26 +137,24 @@ const QuioscoProvider = ({ children }) => {
       console.log(error);
     }
   };
-  // En tu hook useQuiosco
+  
   const handleclickAgregarCategoria = async (formData) => {
     const token = localStorage.getItem("AUTH_TOKEN");
     try {
-      // Verifica si se ha añadido la imagen correctamente usando formData.get
+      // Verificar si se ha añadido la imagen correctamente 
       if (!formData.get("icono")) {
         console.log("Por favor, selecciona una imagen.");
         return;
       }
       const response = await clienteAxios.post("/api/categorias", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // Asegúrate de establecer el tipo de contenido
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data", 
         },
       });
       console.log(response.data);
-      // Aquí puedes actualizar el estado o realizar alguna acción después de agregar la categoría
     } catch (error) {
       console.error("Error al agregar categoría:", error);
-      // Maneja el error según sea necesario
     }
   };
 
@@ -169,6 +167,7 @@ const QuioscoProvider = ({ children }) => {
         },
       });
       console.log(id);
+      toast.success("Eliminado categoria");
     } catch (error) {
       console.log(error);
     }

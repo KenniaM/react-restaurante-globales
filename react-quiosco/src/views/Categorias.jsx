@@ -3,30 +3,42 @@ import useSWR from "swr";
 import clienteAxios from "../config/axios";
 import useQuiosco from "../hooks/useQuiosco";
 import { useState } from "react";
+import Alerta from "../components/Alerta"
 
 export default function Categorias() {
   const { handleclickAgregarCategoria } = useQuiosco();
   const [nuevaCategoria, setNuevaCategoria] = useState({
     nombre: '',
-    icono: '/img/'
+    icono: null
   });
-
+  const [errores, setErrores] = useState([]);
   const [mensaje, setMensaje] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!nuevaCategoria.nombre.trim()) {
+      setErrores('El nombre es obligatorio')
+      return;
+    }
+    
+    if (!nuevaCategoria.icono) {
+      setErrores('Debes seleccionar una imagen')
+      return;
+    }
+  
     const formData = new FormData();
     formData.append('nombre', nuevaCategoria.nombre);
     formData.append('icono', nuevaCategoria.icono);
-    
+  
     try {
       await handleclickAgregarCategoria(formData);
       setMensaje('Categoría agregada exitosamente');
+      setNuevaCategoria({ nombre: '', icono: null }); // Limpiar el formulario
     } catch (error) {
       setMensaje('Error al agregar la categoría');
     }
   };
-
   const handleChange = (e) => {
     setNuevaCategoria({
       ...nuevaCategoria,
@@ -62,6 +74,7 @@ export default function Categorias() {
       </p>
       <div className="bg-white shadow-md rounded-md mt-5 px-3 py-5">
         <form onSubmit={handleSubmit}>
+        {errores ? errores.map((error,i) => <Alerta key={i}>{error}</Alerta>) : null}
           <div className="mb-3">
             <label className="text-slate-800" htmlFor="nombre">
               Nombre:
@@ -72,7 +85,7 @@ export default function Categorias() {
               name="nombre" 
               className="mt-1 w-full p-2 bg-gray-50"
               onChange={handleChange}
-              value={nuevaCategoria.nombre}  // Vinculación del estado
+              value={nuevaCategoria.nombre}  
             />
           </div>
           <div className="mb-3">
@@ -84,7 +97,7 @@ export default function Categorias() {
               id="icono"
               name="icono"  
               className="block w-full text-sm text-gray-900 border rounded-lg"
-              onChange={handleFileChange}  // Manejador correcto para archivos
+              onChange={handleFileChange}  
             />
           </div>
           <input
