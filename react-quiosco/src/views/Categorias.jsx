@@ -2,7 +2,7 @@ import Categoria from "../components/Categoria";
 import useSWR from "swr";
 import clienteAxios from "../config/axios";
 import useQuiosco from "../hooks/useQuiosco";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Alerta from "../components/Alerta"
 
 export default function Categorias() {
@@ -13,6 +13,7 @@ export default function Categorias() {
   });
   const [errores, setErrores] = useState([]);
   const [mensaje, setMensaje] = useState('');
+  const fileInputRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +36,7 @@ export default function Categorias() {
       await handleclickAgregarCategoria(formData);
       setMensaje('Categoría agregada exitosamente');
       setNuevaCategoria({ nombre: '', icono: null }); // Limpiar el formulario
+      fileInputRef.current.value = '';  // Limpiar el valor del input de archivo
     } catch (error) {
       setMensaje('Error al agregar la categoría');
     }
@@ -47,9 +49,13 @@ export default function Categorias() {
   };
 
   const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    // Extraer el nombre que está entre el "_" y el "."
+    const icono = file.name.split('_')[1].split('.')[0];
+    
     setNuevaCategoria({
       ...nuevaCategoria,
-      icono: e.target.files[0]
+      icono: icono
     });
   };
 
