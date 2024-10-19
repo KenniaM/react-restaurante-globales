@@ -13,7 +13,6 @@ export default function Categorias() {
   });
   const [errores, setErrores] = useState([]);
   const [mensaje, setMensaje] = useState('');
-  const fileInputRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +35,7 @@ export default function Categorias() {
       await handleclickAgregarCategoria(formData);
       setMensaje('Categoría agregada exitosamente');
       setNuevaCategoria({ nombre: '', icono: null }); // Limpiar el formulario
-      fileInputRef.current.value = '';  // Limpiar el valor del input de archivo
+      e.target.reset();  
     } catch (error) {
       setMensaje('Error al agregar la categoría');
     }

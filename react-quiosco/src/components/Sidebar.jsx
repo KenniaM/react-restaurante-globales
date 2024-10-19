@@ -7,9 +7,9 @@ export default function Sidebar() {
     const {logout,user} = useAuth({middleware:'auth'});
   return (
     <aside className="md:w-72">
-        <div className="p-4">
+        <div className="flex justify-center items-center">
             <img
-                className="w-40"
+                className="w-48"
                 src="img/logo.svg"
             />
         </div>
