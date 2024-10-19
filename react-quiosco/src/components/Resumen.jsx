@@ -2,6 +2,7 @@ import { formatearDinero } from "../helpers";
 import useQuiosco from "../hooks/useQuiosco"
 import ResumenProducto from "./ResumenProducto";
 import {useAuth} from "../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 export default function Resumen() {
   const {pedido, total, handleSubmitNuevaOrden} = useQuiosco();
@@ -59,6 +60,11 @@ export default function Resumen() {
             />    
           </div>
         </form>
+        <div className="mt-5">
+        <Link to="/historico" className="bg-indigo-600 text-white w-full block p-3 rounded uppercase font-bold text-center">
+          Ver Historico
+        </Link>
+      </div>
     </aside>
   )
 }
