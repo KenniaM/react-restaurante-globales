@@ -50,6 +50,14 @@ const QuioscoProvider = ({ children }) => {
   const handleSetProducto = (producto) => {
     setProducto(producto);
   };
+  const handleEditarProducto = (id) => {
+    const productoActualizar = producto.filter(
+      (producto) => producto.id === id
+    )[0];
+    setProducto(productoActualizar);
+    setModal(!modal);
+  };
+
   const handleAgregarPedido = ({ categoria_id, ...producto }) => {
     if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
       const pedidoActualizado = pedido.map((pedidoState) =>
@@ -70,6 +78,7 @@ const QuioscoProvider = ({ children }) => {
     setProducto(productoActualizar);
     setModal(!modal);
   };
+
 
   const handleEliminarProductoPedido = (id) => {
     const pedidoActualizado = pedido.filter((producto) => producto.id !== id);
@@ -173,6 +182,21 @@ const QuioscoProvider = ({ children }) => {
     }
   };
 
+  const handleEliminarProducto = async (id) => {
+    const token = localStorage.getItem("AUTH_TOKEN");
+    try {
+      await clienteAxios.delete(`/api/eliminar_producto/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(id);
+      toast.success("Eliminado Producto");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <QuioscoContext.Provider
       value={{
@@ -183,6 +207,7 @@ const QuioscoProvider = ({ children }) => {
         handleClickModal,
         producto,
         handleSetProducto,
+        handleEditarProducto,
         pedido,
         handleAgregarPedido,
         handleEditarCantidad,
@@ -193,6 +218,7 @@ const QuioscoProvider = ({ children }) => {
         handleclickProductoAgotado,
         handleclickAgregarCategoria,
         handleclickEliminarCategoria,
+        handleEliminarProducto,
       }}
     >
       {children}
