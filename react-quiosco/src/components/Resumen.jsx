@@ -3,17 +3,24 @@ import useQuiosco from "../hooks/useQuiosco"
 import ResumenProducto from "./ResumenProducto";
 import {useAuth} from "../hooks/useAuth";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import ModalFactura from "./ModalFactura";
 
 export default function Resumen() {
   const {pedido, total, handleSubmitNuevaOrden} = useQuiosco();
   const {logout} = useAuth({});
+  const [mostrarFactura, setMostrarFactura] = useState(false); // Estado para mostrar u ocultar el modal
 
   const comprobarPedido = () => pedido.length === 0;
 
   const handleSubmit = e => {
     e.preventDefault();
-    handleSubmitNuevaOrden(logout);
+    setMostrarFactura(true); // Muestra el modal al hacer submit
   }
+  const cerrarModal = () => {
+    setMostrarFactura(false);
+    handleSubmitNuevaOrden(logout); // Cierra la sesión después de enviar el pedido
+  };
 
   return (
     <aside className="w-72 h-screen overflow-y-scroll p-5">
@@ -65,6 +72,13 @@ export default function Resumen() {
           Ver Historico
         </Link>
       </div>
+      {mostrarFactura && (
+        <ModalFactura
+          pedido={pedido}
+          total={total}
+          onClose={cerrarModal}
+        />
+      )}
     </aside>
   )
 }

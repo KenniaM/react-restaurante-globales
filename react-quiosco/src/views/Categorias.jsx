@@ -16,15 +16,21 @@ export default function Categorias() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    let erroresTemp = [];
+
     if (!nuevaCategoria.nombre.trim()) {
-      setErrores('El nombre es obligatorio')
-      return;
+      erroresTemp.push('El nombre es obligatorio');
     }
-    
+
     if (!nuevaCategoria.icono) {
-      setErrores('Debes seleccionar una imagen')
+      erroresTemp.push('Debes seleccionar una imagen');
+    }
+
+    if (erroresTemp.length > 0) {
+      setErrores(erroresTemp); // Actualizar el estado de errores
       return;
+    } else {
+      setErrores([]); // Limpiar errores si no hay
     }
   
     const formData = new FormData();

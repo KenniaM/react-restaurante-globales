@@ -163,7 +163,7 @@ const QuioscoProvider = ({ children }) => {
       });
       console.log(response.data);
     } catch (error) {
-      console.error("Error al agregar categoría:", error);
+      console.error("Error al agregar la categoría:", error);
     }
   };
 
@@ -175,8 +175,7 @@ const QuioscoProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(id);
-      toast.success("Eliminado categoria");
+      toast.success("Categoria eliminada");
     } catch (error) {
       console.log(error);
     }
@@ -191,7 +190,8 @@ const QuioscoProvider = ({ children }) => {
         },
       });
       console.log(id);
-      toast.success("Eliminado Producto");
+      toast.success("Producto eliminado");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
