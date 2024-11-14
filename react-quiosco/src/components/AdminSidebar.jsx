@@ -13,7 +13,7 @@ export default function AdminSidebar() {
             />
         </div>
         <nav className='flex flex-col p-2'>
-            <Link to="/admin" className=" text-lg font-bold hover:bg-gray-300">Ordenes</Link>
+            <Link to="/admin" className=" text-lg font-bold flex items-center gap-4 border w-full p-3 cursor-pointe hover:bg-gray-300">Ordenes</Link>
             <Link to="/admin/productos" className=" text-lg font-bold hover:bg-gray-300">Productos</Link>
             <Link to="/admin/categorias" className=" text-lg font-bold hover:bg-gray-300">Categorias</Link>
         </nav>

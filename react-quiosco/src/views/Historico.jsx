@@ -18,7 +18,7 @@ export default function Historico() {
   const { data, error, isLoading } = useSWR("/api/pedidos", fetcher, {
     refreshInterval: 1000,
   });
-   // Asegurarse de que `data` esté disponible y luego filtrar
+  
    const pedidosFiltrados = data?.data?.data.filter((pedido) => pedido.user.id === user.id);
 
  if (isLoading) return <p>Cargando...</p>;
