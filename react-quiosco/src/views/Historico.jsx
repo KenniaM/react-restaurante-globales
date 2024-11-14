@@ -27,6 +27,7 @@ export default function Historico() {
       <h1 className="text-3xl font-black">
         Historial de pedidos
       </h1>
+      {pedidosFiltrados.length === 0 && <p>No hay pedidos aún</p>}
       <div className="grid grid-cols-2 gap-5">
         {pedidosFiltrados.map((pedido) => (
           <div

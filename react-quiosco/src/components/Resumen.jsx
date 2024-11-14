@@ -72,7 +72,6 @@ export default function Resumen() {
           Ver Historico
         </Link>
       </div>
-      {/* Renderiza el modal si mostrarFactura es true */}
       {mostrarFactura && (
         <ModalFactura
           pedido={pedido}

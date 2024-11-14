@@ -175,8 +175,7 @@ const QuioscoProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(id);
-      toast.success("Categoria eliminado");
+      toast.success("Categoria eliminada");
     } catch (error) {
       console.log(error);
     }
