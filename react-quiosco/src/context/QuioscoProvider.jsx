@@ -47,9 +47,27 @@ const QuioscoProvider = ({ children }) => {
   const handleClickModal = () => {
     setModal(!modal);
   };
-  const handleSetProducto = (producto) => {
-    setProducto(producto);
+  const handleSetProducto = async (formData) => {
+    const token = localStorage.getItem("AUTH_TOKEN");
+    try {
+      if (!formData.get("imagen")) {
+        console.log("Por favor, selecciona una imagen.");
+        return;
+      }
+      const response = await clienteAxios.post("/api/productos", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data", 
+        },
+      });
+      console.log(response.data);
+      toast.success("Producto agregado correctamente");
+    } catch (error) {
+      console.error("Error al agregar producto:", error);
+      toast.error("Error al agregar el producto");
+    }
   };
+  
   const handleEditarProducto = (id) => {
     const productoActualizar = producto.filter(
       (producto) => producto.id === id
@@ -192,6 +210,7 @@ const QuioscoProvider = ({ children }) => {
       });
       console.log(id);
       toast.success("Eliminado Producto");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
