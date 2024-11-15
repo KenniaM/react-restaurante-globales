@@ -3,7 +3,7 @@ import useQuiosco from "../hooks/useQuiosco";
 import Alerta from "../components/Alerta"
 
 export default function ModalAgregarProducto({ onClose }) {
-  const { handleSetProducto, categorias } = useQuiosco();
+  const { handleclickAgregarProducto, categorias } = useQuiosco();
   const [nombre, setNombre] = useState("");
   const [precio, setPrecio] = useState("");
   const [imagen, setImagen] = useState(null);
@@ -17,7 +17,7 @@ export default function ModalAgregarProducto({ onClose }) {
     setImagen(icono);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const erroresTemp = [];
     if (!nombre) erroresTemp.push("El nombre es obligatorio");
@@ -35,8 +35,12 @@ export default function ModalAgregarProducto({ onClose }) {
     formData.append("imagen", imagen);
     formData.append("categoria_id", categoriaId); // Asigna el ID de la categoría seleccionada
     formData.append("disponible", 1);
-
-    handleSetProducto(formData);
+    try {
+      await handleclickAgregarProducto(formData);
+      console.log("Agregada exitosamente")
+    } catch (error) {
+      console.log("Error al agregar")
+    }
 
     onClose(); // Cierra el modal
   };

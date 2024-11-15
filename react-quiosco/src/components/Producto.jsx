@@ -26,7 +26,7 @@ export default function Producto({producto , botonAgregar=false, botonEliminar=f
           )} 
 
           {botonEliminar &&(
-            <button type="button" className="bg-indigo-600 text-white w-full mt-5 p-3 uppercase font-bold" onClick={() => { handleEliminarProducto(producto);}}>
+            <button type="button" className="bg-red-700 text-white w-full mt-5 p-3 uppercase font-bold" onClick={() => { handleEliminarProducto(producto.id);}}>
              Eliminar
             </button>
           )} 
