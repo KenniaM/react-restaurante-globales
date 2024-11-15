@@ -166,6 +166,20 @@ const QuioscoProvider = ({ children }) => {
       console.error("Error al agregar la categoría:", error);
     }
   };
+  const handleclickAgregarProducto = async (formData) => {
+    const token = localStorage.getItem("AUTH_TOKEN");
+    try { 
+      const response = await clienteAxios.post("/api/productos", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data", 
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error al agregar el producto:", error);
+    }
+  };
 
   const handleclickEliminarCategoria = async (id) => {
     const token = localStorage.getItem("AUTH_TOKEN");
@@ -217,6 +231,7 @@ const QuioscoProvider = ({ children }) => {
         handleclickCompletarPedido,
         handleclickProductoAgotado,
         handleclickAgregarCategoria,
+        handleclickAgregarProducto,
         handleclickEliminarCategoria,
         handleEliminarProducto,
       }}
