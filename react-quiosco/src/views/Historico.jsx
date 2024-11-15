@@ -2,28 +2,34 @@ import { Link } from "react-router-dom";
 import useSWR from "swr";
 import clienteAxios from "../config/axios";
 import { formatearDinero } from "../helpers";
+import { useAuth } from "../hooks/useAuth"
 
 export default function Historico() {
   const token = localStorage.getItem("AUTH_TOKEN");
+  const {user} = useAuth({middleware:'auth'});
+  
   const fetcher = () =>
     clienteAxios("/api/pedidos", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
+    
   const { data, error, isLoading } = useSWR("/api/pedidos", fetcher, {
     refreshInterval: 1000,
   });
+  
+   const pedidosFiltrados = data?.data?.data.filter((pedido) => pedido.user.id === user.id);
 
-  if (isLoading) return <p>Cargando...</p>;
+ if (isLoading) return <p>Cargando...</p>;
   return (
     <>
       <h1 className="text-3xl font-black">
         Historial de pedidos
       </h1>
+      {pedidosFiltrados.length === 0 && <p>No hay pedidos aún</p>}
       <div className="grid grid-cols-2 gap-5">
-        {data.data.data.map((pedido) => (
+        {pedidosFiltrados.map((pedido) => (
           <div
             key={pedido.id}
             className="border border-gray-300 p-4 my-4 shadow space-y-2 border-b"

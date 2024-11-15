@@ -50,6 +50,14 @@ const QuioscoProvider = ({ children }) => {
   const handleSetProducto = (producto) => {
     setProducto(producto);
   };
+  const handleEditarProducto = (id) => {
+    const productoActualizar = producto.filter(
+      (producto) => producto.id === id
+    )[0];
+    setProducto(productoActualizar);
+    setModal(!modal);
+  };
+
   const handleAgregarPedido = ({ categoria_id, ...producto }) => {
     if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
       const pedidoActualizado = pedido.map((pedidoState) =>
@@ -70,6 +78,7 @@ const QuioscoProvider = ({ children }) => {
     setProducto(productoActualizar);
     setModal(!modal);
   };
+
 
   const handleEliminarProductoPedido = (id) => {
     const pedidoActualizado = pedido.filter((producto) => producto.id !== id);
@@ -154,7 +163,21 @@ const QuioscoProvider = ({ children }) => {
       });
       console.log(response.data);
     } catch (error) {
-      console.error("Error al agregar categoría:", error);
+      console.error("Error al agregar la categoría:", error);
+    }
+  };
+  const handleclickAgregarProducto = async (formData) => {
+    const token = localStorage.getItem("AUTH_TOKEN");
+    try { 
+      const response = await clienteAxios.post("/api/productos", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data", 
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error al agregar el producto:", error);
     }
   };
 
@@ -166,8 +189,23 @@ const QuioscoProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      toast.success("Categoria eliminada");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEliminarProducto = async (id) => {
+    const token = localStorage.getItem("AUTH_TOKEN");
+    try {
+      await clienteAxios.delete(`/api/eliminar_producto/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(id);
-      toast.success("Eliminado categoria");
+      toast.success("Producto eliminado");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -183,6 +221,7 @@ const QuioscoProvider = ({ children }) => {
         handleClickModal,
         producto,
         handleSetProducto,
+        handleEditarProducto,
         pedido,
         handleAgregarPedido,
         handleEditarCantidad,
@@ -192,7 +231,9 @@ const QuioscoProvider = ({ children }) => {
         handleclickCompletarPedido,
         handleclickProductoAgotado,
         handleclickAgregarCategoria,
+        handleclickAgregarProducto,
         handleclickEliminarCategoria,
+        handleEliminarProducto,
       }}
     >
       {children}

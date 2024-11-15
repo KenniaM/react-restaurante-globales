@@ -1,13 +1,15 @@
 import { formatearDinero } from "../helpers";
 import useQuisco from "../hooks/useQuiosco";
 
-export default function Producto({producto , botonAgregar=false, botonDisponible=false}) {
+
+export default function Producto({producto , botonAgregar=false, botonEliminar=false, botonDisponible=false}) {
   
-  const { handleClickModal, handleSetProducto, handleclickProductoAgotado} = useQuisco();
+  const { handleClickModal, handleSetProducto, handleclickProductoAgotado, handleEliminarProducto} = useQuisco();
   const { nombre, imagen, precio } = producto;
 
   return (
     <div className="border p-3 shadow bg-white">
+      
       <img
         alt={`imagen ${nombre}`}
         className="w-full"
@@ -21,7 +23,13 @@ export default function Producto({producto , botonAgregar=false, botonDisponible
             <button type="button" className="bg-indigo-600 text-white w-full mt-5 p-3 uppercase font-bold" onClick={() => {handleClickModal(); handleSetProducto(producto);}}>
              Agregar
             </button>
-          )}
+          )} 
+
+          {botonEliminar &&(
+            <button type="button" className="bg-red-700 text-white w-full mt-5 p-3 uppercase font-bold" onClick={() => { handleEliminarProducto(producto.id);}}>
+             Eliminar
+            </button>
+          )} 
 
           {botonDisponible &&(
             <button type="button" className="bg-indigo-600 text-white w-full mt-5 p-3 uppercase font-bold"

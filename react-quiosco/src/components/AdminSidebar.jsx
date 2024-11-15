@@ -12,10 +12,11 @@ export default function AdminSidebar() {
             className="w-48"
             />
         </div>
+        <p className="text-1xl text-black font-bold text-center mb-2">Quiosco de comida</p>
         <nav className='flex flex-col p-2'>
-            <Link to="/admin" className=" text-lg font-bold hover:bg-gray-300">Ordenes</Link>
-            <Link to="/admin/productos" className=" text-lg font-bold hover:bg-gray-300">Productos</Link>
-            <Link to="/admin/categorias" className=" text-lg font-bold hover:bg-gray-300">Categorias</Link>
+            <Link to="/admin" className=" text-lg font-bold flex items-center gap-4 border w-full p-3 cursor-pointe hover:bg-gray-300">Ordenes</Link>
+            <Link to="/admin/productos" className=" text-lg font-bold flex items-center gap-4 border w-full p-3 cursor-pointe hover:bg-gray-300">Productos</Link>
+            <Link to="/admin/categorias" className=" text-lg font-bold flex items-center gap-4 border w-full p-3 cursor-pointe hover:bg-gray-300">Categorias</Link>
         </nav>
 
         <div className='my-5 px-5'>
