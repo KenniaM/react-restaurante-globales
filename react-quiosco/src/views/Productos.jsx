@@ -46,8 +46,6 @@ export default function Productos() {
               <Producto
               key={producto.imagen}
               producto={producto}
-              btnAgregarProducto={true}
-              botonEditar={true}
               botonEliminar={true}
               botonDisponible={true}
               />

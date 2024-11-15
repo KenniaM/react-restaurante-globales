@@ -1,21 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useQuiosco from "../hooks/useQuiosco";
+import Alerta from "../components/Alerta"
 
-export default function ModalAgregarProducto({ producto = null, onClose }) {
-  const { handleSetProducto, handleEditarProducto, categorias } = useQuiosco();
+export default function ModalAgregarProducto({ onClose }) {
+  const { handleSetProducto, categorias } = useQuiosco();
   const [nombre, setNombre] = useState("");
   const [precio, setPrecio] = useState("");
   const [imagen, setImagen] = useState(null);
-  const [categoriaId, setCategoriaId] = useState(""); // Estado para almacenar el ID de la categoría seleccionada
+  const [categoriaId, setCategoriaId] = useState(""); 
+  const [errores, setErrores] = useState([]);
 
-  useEffect(() => {
-    if (producto) {
-      setNombre(producto.nombre);
-      setPrecio(producto.precio);
-      setImagen(producto.imagen);
-      setCategoriaId(producto.categoria_id || ""); 
-    }
-  }, [producto]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -25,6 +19,16 @@ export default function ModalAgregarProducto({ producto = null, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const erroresTemp = [];
+    if (!nombre) erroresTemp.push("El nombre es obligatorio");
+    if (!precio) erroresTemp.push("El precio es obligatorio");
+    if (!imagen) erroresTemp.push("La imagen es obligatoria");
+    if (!categoriaId) erroresTemp.push("La categoría es obligatoria");
+
+    if (erroresTemp.length > 0) {
+      setErrores(erroresTemp);
+      return;
+    }
     const formData = new FormData();
     formData.append("nombre", nombre);
     formData.append("precio", precio);
@@ -32,11 +36,7 @@ export default function ModalAgregarProducto({ producto = null, onClose }) {
     formData.append("categoria_id", categoriaId); // Asigna el ID de la categoría seleccionada
     formData.append("disponible", 1);
 
-    if (producto) {
-      handleEditarProducto({ ...formData, id: producto.id });
-    } else {
-      handleSetProducto(formData);
-    }
+    handleSetProducto(formData);
 
     onClose(); // Cierra el modal
   };
@@ -44,8 +44,9 @@ export default function ModalAgregarProducto({ producto = null, onClose }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white w-96 p-5 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">{producto ? "Editar Producto" : "Agregar Producto"}</h2>
+        <h2 className="text-2xl font-bold mb-4">Agregar Producto</h2>
         <form onSubmit={handleSubmit}>
+        {errores ? errores.map((error,i) => <Alerta key={i}>{error}</Alerta>) : null}
           <div className="mb-4">
             <label className="text-gray-700 font-bold">Nombre:</label>
             <input
@@ -88,7 +89,7 @@ export default function ModalAgregarProducto({ producto = null, onClose }) {
             </select>
           </div>
           <button type="submit" className="bg-green-600 text-white py-2 px-4 rounded mt-3 w-full">
-            {producto ? "Guardar Cambios" : "Agregar Producto"}
+            Agregar Producto
           </button>
           <button onClick={onClose} type="button" className="bg-gray-400 text-white py-2 px-4 rounded mt-3 w-full">
             Cancelar

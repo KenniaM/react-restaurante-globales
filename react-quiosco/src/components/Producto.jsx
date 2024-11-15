@@ -1,20 +1,11 @@
 import { formatearDinero } from "../helpers";
 import useQuisco from "../hooks/useQuiosco";
-import ModalAgregarProducto from "./ModalAgregarProducto";
-import { useState } from "react";
 
-export default function Producto({producto , botonAgregar=false,btnAgregarProducto=false, botonEditar=false, botonEliminar=false, botonDisponible=false}) {
+
+export default function Producto({producto , botonAgregar=false, botonEliminar=false, botonDisponible=false}) {
   
-  const { handleClickModal, handleSetProducto, handleclickProductoAgotado, handleEditarProducto, handleEliminarProducto} = useQuisco();
+  const { handleClickModal, handleSetProducto, handleclickProductoAgotado, handleEliminarProducto} = useQuisco();
   const { nombre, imagen, precio } = producto;
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalProducto, setModalProducto] = useState(null);
-
-  const openModal = (producto = null) => {
-    setModalProducto(producto); // Configura el producto para editar o null para agregar
-    setModalOpen(true);
-  };
-  const closeModal = () => setModalOpen(false);
 
   return (
     <div className="border p-3 shadow bg-white">
@@ -40,15 +31,6 @@ export default function Producto({producto , botonAgregar=false,btnAgregarProduc
             Agregar
           </button>
         )}
-          {botonEditar &&(
-            <button type="button" className="bg-yellow-500 text-white w-full mt-5 p-3 uppercase font-bold" onClick={() => {
-              
-              openModal(producto)
-            }}>
-             Editar
-            </button>
-          )}  
-
           {botonEliminar &&(
             <button type="button" className="bg-red-600 text-white w-full mt-5 p-3 uppercase font-bold" onClick={() => { 
               handleEliminarProducto(producto.id);
@@ -64,12 +46,6 @@ export default function Producto({producto , botonAgregar=false,btnAgregarProduc
            </button>
           )}
       </div>
-      {modalOpen && (
-        <ModalAgregarProducto
-          producto={modalProducto}
-          onClose={closeModal}
-        />
-      )}
     </div>
   )
 }
