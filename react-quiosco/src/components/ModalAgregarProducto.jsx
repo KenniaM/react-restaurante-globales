@@ -30,7 +30,7 @@ export default function ModalAgregarProducto({ producto = null, onClose }) {
     formData.append("precio", precio);
     formData.append("imagen", imagen);
     formData.append("categoria_id", categoriaId); // Asigna el ID de la categoría seleccionada
-    formData.append("disponible", true);
+    formData.append("disponible", 1);
 
     if (producto) {
       handleEditarProducto({ ...formData, id: producto.id });
