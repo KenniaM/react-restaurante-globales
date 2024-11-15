@@ -2,6 +2,7 @@ import useSWR from "swr"
 import useQuisco from "../hooks/useQuiosco"
 import clienteAxios from "../config/axios"
 import { formatearDinero } from "../helpers"
+import { useState } from "react";
 
 export default function Ordenes() {
 const token = localStorage.getItem('AUTH_TOKEN')
@@ -14,8 +15,16 @@ const fetcher = ()=> clienteAxios('/api/pedidos',{
   const { data, error, isLoading } = useSWR('/api/pedidos',fetcher , {refreshInterval
     : 1000
   })
- 
+  const [mesa, setMesas] = useState(""); // Estado para el campo de mesa
   const {handleclickCompletarPedido} = useQuisco()
+
+
+  const handleMesaChange = (pedidoId, value) => {
+    setMesas((prevMesas) => ({
+      ...prevMesas,
+      [pedidoId]: value, // Actualizar solo la mesa de este pedido
+    }));
+  };
   if(isLoading) return <p>Cargando...</p>
 
   return (
@@ -44,7 +53,17 @@ const fetcher = ()=> clienteAxios('/api/pedidos',{
               <p className="text-lg font-bold text-slate-600">Cliente: <span className="font-normal">{pedido.user.name}</span></p>
               
               <p className="text-lg font-bold text-amber-600">Total: <span className="text-slate-600 font-normal">{formatearDinero(pedido.total)}</span></p>
-            
+              <div className="mt-4">
+              <label htmlFor={`mesa-${pedido.id}`} className="block text-gray-700 font-bold mb-2">Mesa:</label>
+              <input
+                type="text"
+                id={`mesa-${pedido.id}`}
+                placeholder="Asignar mesa"
+                value={mesa[pedido.id] || ""} // Valor de la mesa específica del pedido
+                onChange={(e) => handleMesaChange(pedido.id, e.target.value)}
+                className="border border-gray-300 p-2 w-full rounded"
+              />
+            </div>
               <button type="submit"
                   className='bg-indigo-600 hover:bg-indigo-800 px-5 py-2 rounded uppercase font-bold text-white text-center w-full cursor-pointer'
                   onClick={()=>handleclickCompletarPedido(pedido.id)}

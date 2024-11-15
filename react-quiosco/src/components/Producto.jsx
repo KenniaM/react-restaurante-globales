@@ -19,22 +19,14 @@ export default function Producto({producto , botonAgregar=false, botonEliminar=f
           <h3 className="text-2xl font-bold">{nombre}</h3>
           <p className="mt-5 font-black text-4xl text-amber-500">{formatearDinero(precio)}</p>
 
-          {botonAgregar && (
-          <button
-            type="button"
-            className="bg-green-600 text-white w-full mt-5 p-3 uppercase font-bold"
-            onClick={() => {
-              handleClickModal();
-              handleSetProducto(producto); // Setea el producto en el contexto para agregar
-            }}
-          >
-            Agregar
-          </button>
-        )}
+          {botonAgregar &&(
+            <button type="button" className="bg-indigo-600 text-white w-full mt-5 p-3 uppercase font-bold" onClick={() => {handleClickModal(); handleSetProducto(producto);}}>
+             Agregar
+            </button>
+          )} 
+
           {botonEliminar &&(
-            <button type="button" className="bg-red-600 text-white w-full mt-5 p-3 uppercase font-bold" onClick={() => { 
-              handleEliminarProducto(producto.id);
-            }}>
+            <button type="button" className="bg-indigo-600 text-white w-full mt-5 p-3 uppercase font-bold" onClick={() => { handleEliminarProducto(producto);}}>
              Eliminar
             </button>
           )} 

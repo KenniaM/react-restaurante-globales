@@ -13,9 +13,10 @@ export default function Sidebar() {
                 src="img/logo.svg"
             />
         </div>
-        <p className="my-10 text-2xl text-center">Hola: {user?.name}</p>
+        <p className="text-1xl text-black font-bold text-center mb-3">Quiosco de comida</p>
+        <p className="my-2 text-2xl text-center">Hola: {user?.name}</p>
 
-        <div className="mt-10">
+        <div className="mt-5">
             {categorias.map( categoria => (
                 <Categoria
                     key={categoria.id}
